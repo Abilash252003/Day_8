@@ -1,0 +1,49 @@
+///100 days of RTL Challenge///
+
+///Abilash P///
+
+///4 bit subractor///
+
+module bit4_adder_sub_tb ();
+
+reg  [3:0]a_in,b_in;
+reg  control;
+
+wire [3:0]s_or_d;
+wire co_or_bo;
+
+bit4_adder_sub DUT(.a_in(a_in),.b_in(b_in),.control(control),.s_or_d(s_or_d),.co_or_bo(co_or_bo));
+
+integer i;
+
+initial
+begin
+  $display ("A is constant(1100) and B varies from 0000 to 1111");
+  $display ("For the above values, performing addition");
+  control = 1'b0;
+  a_in    = 4'b1100;
+
+  for(i=4'b0000; i<=4'b1111; i=i+1)
+  begin
+       b_in = i;
+       #20;
+       $display ("Input A = %b----Input B = %b----Input Cin = %b----Output sum = %b----Output carry = %b",a_in,b_in,control,s_or_d,co_or_bo);
+  end
+
+  $display("--------------------------------------------------");  
+
+  $display ("A is constant(1100) and B varies from 0000 to 1111");
+  $display ("For the above values, performing subraction");
+  control = 1'b1;
+  a_in    = 4'b1100;
+
+  for(i=4'b0000; i<=4'b1111; i=i+1)
+  begin
+       b_in = i;
+       #20;
+       $display ("Input A = %b----Input B = %b----Input bbin = %b----Output diff = %b----Output borrow = %b",a_in,b_in,control,s_or_d,co_or_bo);
+  end
+
+end
+
+endmodule
