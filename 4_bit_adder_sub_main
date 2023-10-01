@@ -1,0 +1,30 @@
+//100 days of RTL challenge//
+
+//Abilash P//
+
+//4bit adder/subractor//
+
+module bit4_adder_sub(a_in, b_in, control, s_or_d, co_or_bo);
+
+input [3:0]a_in, b_in;
+input control;                               //control = 0- performs add //control = 1 - performs sub
+
+output [3:0]s_or_d;
+output co_or_bo;
+
+wire [3:0]ci_or_bi;
+wire [3:0]b1_in;
+
+assign b1_in[0] = control ^ b_in[0];         //xor with 0 then same value - B as it is for addition
+assign b1_in[1] = control ^ b_in[1];
+assign b1_in[2] = control ^ b_in[2];         //xor with 1 then comp value - ~B (used for sub)
+assign b1_in[3] = control ^ b_in[3];
+
+full_adder FA0 (a_in[0], b1_in[0], control,     s_or_d[0], ci_or_bi[0]);
+full_adder FA1 (a_in[1], b1_in[1], ci_or_bi[0], s_or_d[1], ci_or_bi[1]);
+full_adder FA2 (a_in[2], b1_in[2], ci_or_bi[1], s_or_d[2], ci_or_bi[2]);
+full_adder FA3 (a_in[3], b1_in[3], ci_or_bi[2], s_or_d[3], ci_or_bi[3]);
+
+xor x1(co_or_bo, ci_or_bi[3], control);       //last ci_or_bi[3] for addition, ~ci_or_bi[3] for subraction
+
+endmodule
